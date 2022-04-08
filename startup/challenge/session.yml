@@ -49,4 +49,4 @@ windows:
   - solution:
       layout: tiled
       panes:
-        - # Launch your Challenge solution here
+        - waitForRos; roslaunch icuas22_competition solution.launch
