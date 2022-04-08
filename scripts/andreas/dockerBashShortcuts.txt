@@ -1,0 +1,8 @@
+cntr+T -> opens new bash tab
+cntr+E -> splits bash vertically
+cntr+O -> splits bash horizontally
+cntr+H -> traverses through splits horizontally
+cntr+J -> traverses through splits vertically
+cntr+D -> closes the bash tab/split
+shift+arrow -> traverses through the bash tabs
+
