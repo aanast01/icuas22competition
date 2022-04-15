@@ -13,4 +13,5 @@ rm .tmuxinator.yml
 ln session.yml .tmuxinator.yml
 
 # start tmuxinator
-tmuxinator
+#tmuxinator
+tmuxinator start -p session.yml arena=$1

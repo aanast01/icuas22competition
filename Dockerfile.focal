@@ -14,8 +14,7 @@ RUN git clone https://github.com/larics/larics_gazebo_worlds.git
 RUN git clone --branch melodic_electromagnet_dev https://github.com/larics/storm_gazebo_ros_magnet.git
 RUN git clone https://github.com/aanast01/depthimage_to_laserscan.git
 RUN git clone https://github.com/aanast01/quadcopter_laser_map.git
-RUN apt install ros-noetic-gmapping ros-noetic-move-base -y
-
+RUN apt-get install ros-noetic-gmapping ros-noetic-move-base -y
 
 # Step 3: Create the icuas22_competition package and copy its contents
 WORKDIR $HOME/$CATKIN_WORKSPACE/src/icuas22_competition

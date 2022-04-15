@@ -48,7 +48,7 @@ In case the simulation inside the Docker container is (still) not working correc
 If you're building all the packages natively, navigate to the ```uav_ros_simulation``` folder and do the following:
 ```bash
 git pull origin main
-gitman install --force
+./installation/install.sh
 
 # Navigate to catkin workspace (default is uav_ws)
 catkin build
@@ -87,6 +87,12 @@ To automatically start and setup the challenge navigate to ```startup/challenge`
 ./start.sh
 ```
 This should automatically setup and start the challenge, as well as run your code.
+
+There are three worlds available for the challenge. If you want to start the challenge with different world you can run:
+```
+./start.sh N
+```
+where N can be 1, 2 or 3 depending on the world you want to load.
 
 * Commands that run your challenge solution (rosrun, roslaunch etc.) should be placed in the ```session.yml``` file.
 * Software configuration specific to the challenge should be placed in the ```custom_config``` folder.
@@ -146,5 +152,3 @@ More details on the challenge can be found in the competition rulebook http://ww
 * ```uav_magnet/gain``` - When you want to detach the ball from the magnetic gripper, publish a ```0``` gain on this topic.
 
 **NOTE** If you detach the ball by setting the UAV magnet gain to ```0``` and want to spawn another ball using the ```spawn_ball``` service, you will have to reset the gain to ```1.0``` in order for the UAV magnet to become active again.
-# icuas22competition
-# icuas22competition
