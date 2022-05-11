@@ -6,7 +6,7 @@ touch $XAUTH
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
 
 echo "Running Docker Container"
-CONTAINER_NAME=icuas22_competition_v3
+CONTAINER_NAME=icuas22_competition_v4
 
 # Get distro of the built image
 distro=$(docker images $CONTAINER_NAME | tail -n1 | awk '{print $2}')

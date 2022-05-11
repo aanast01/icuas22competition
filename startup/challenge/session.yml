@@ -21,16 +21,16 @@ pre_window: |
     export TILE_YAW=3.1415926
   elif [ $ARENA_TYPE -eq 2 ]
   then
-    export TILE_X=9.0
-    export TILE_Y=-7.5
-    export TILE_Z=2.5
-    export TILE_YAW=1.57079632679
-  elif [ $ARENA_TYPE -ge 3 ]
-  then
     export TILE_X=7.5
     export TILE_Y=7.5
     export TILE_Z=3.5
     export TILE_YAW=-1.57079632679
+  elif [ $ARENA_TYPE -ge 3 ]
+  then
+    export TILE_X=9.0
+    export TILE_Y=-7.5
+    export TILE_Z=2.5
+    export TILE_YAW=1.57079632679
   fi;
 windows:
   - roscore:
@@ -80,3 +80,9 @@ windows:
       layout: tiled
       panes:
         - waitForRos; roslaunch controller nav.launch
+  - eval:
+      layout: tiled
+      panes:
+        - waitForRos; rostopic echo /red/tag_position_reconstructed
+        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/test.py
+        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/test2.py
