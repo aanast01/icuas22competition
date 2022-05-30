@@ -13,25 +13,12 @@ pre_window: |
     echo "arena argument should be 1, 2 or 3. Defaulting to 1."
     export ARENA_TYPE=1
   fi;
-  if [ $ARENA_TYPE -eq 1 ]
-  then
-    export TILE_X=12.5
-    export TILE_Y=-3.0
-    export TILE_Z=2.0
-    export TILE_YAW=3.1415926
-  elif [ $ARENA_TYPE -eq 2 ]
-  then
-    export TILE_X=7.5
-    export TILE_Y=7.5
-    export TILE_Z=3.5
-    export TILE_YAW=-1.57079632679
-  elif [ $ARENA_TYPE -ge 3 ]
-  then
-    export TILE_X=9.0
-    export TILE_Y=-7.5
-    export TILE_Z=2.5
-    export TILE_YAW=1.57079632679
-  fi;
+  export TILE_X_E=4.5
+  export TILE_Y_E=7.5
+  export TILE_Z_E=2.97
+  export TILE_YAW_E=-1.57079632679
+  export UAV_X_E=-10.50
+  export UAV_Y_E=-5.5
 windows:
   - roscore:
       layout:
@@ -50,11 +37,11 @@ windows:
         - waitForRos; roslaunch ardupilot_gazebo kopterworx.launch 
           use_sim_time:=true
           enable_magnet:=true
-          x:=-10
+          x:=$UAV_X_E y:=$UAV_Y_E
           world:=$(rospack find icuas22_competition)/worlds/well_lit.world
         - waitForRos; waitForSimulation; roslaunch larics_gazebo_worlds spawn_arena_v$ARENA_TYPE.launch
         - waitForRos; waitForSimulation; sleep 2; roslaunch larics_gazebo_worlds spawn_alvar_tile.launch 
-          x:=$TILE_X yaw:=$TILE_YAW z:=$TILE_Z y:=$TILE_Y
+          x:=$TILE_X_E yaw:=$TILE_YAW_E z:=$TILE_Z_E y:=$TILE_Y_E
   - arm&takeof:
       layout: tiled
       panes:
@@ -83,6 +70,9 @@ windows:
   - eval:
       layout: tiled
       panes:
-        - waitForRos; rostopic echo /red/tag_position_reconstructed
-        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/test.py
+        - waitForRos; rostopic echo /battery_level
+        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/test.py $TILE_X_E $TILE_Y_E $TILE_Z_E
         - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/test2.py
+        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/test3.py $TILE_X_E $TILE_Y_E $TILE_Z_E
+        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/battery_node.py
+        - waitForRos; python /root/uav_ws/src/icuas22_competition/scripts/dist_calc_speed.py
