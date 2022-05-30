@@ -14,6 +14,7 @@ class OdometryModifier:
   def __init__(self):
     rospy.init_node('odom_drone', anonymous=True)
     rospy.wait_for_message("/red/challenge_started", Bool)
+    rospy.sleep(1)
     self.sub = rospy.Subscriber("/red/odometry", Odometry, self.callback)
     self.bat = rospy.Subscriber("/clock", Clock, self.sec_cb)
     self.pub = rospy.Publisher('odom2', Odometry, queue_size=10)
