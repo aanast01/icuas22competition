@@ -17,6 +17,7 @@ class OdometryModifier:
     rospy.sleep(1)
     self.sub = rospy.Subscriber("/red/odometry", Odometry, self.callback)
     self.bat = rospy.Subscriber("/clock", Clock, self.sec_cb)
+    self.start_time = rospy.wait_for_message("/clock", Clock)
     self.pub = rospy.Publisher('odom2', Odometry, queue_size=10)
 
     self.total_distance = 0.
@@ -35,7 +36,7 @@ class OdometryModifier:
     l2 = [data.twist.twist.linear.x, data.twist.twist.linear.y, data.twist.twist.angular.x, data.twist.twist.angular.y]
     
     if l1==l2:
-        avg_spd = (self.total_distance/sec)
+        avg_spd = (self.total_distance/(sec-self.start_time.clock.secs))
         print ("average speed: {:.2f}m/s".format(avg_spd))
         rospy.signal_shutdown("Done Calculating the average speed") 
       
