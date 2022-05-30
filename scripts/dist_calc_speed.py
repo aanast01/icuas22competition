@@ -5,16 +5,17 @@ import time
 from math import sqrt
 #from tf.transformations import euler_from_quaternion
 from nav_msgs.msg import Odometry
-from std_msgs.msg import Float32
-
+from std_msgs.msg import Float32, Bool
+from rosgraph_msgs.msg import Clock
 data = Odometry()
 sec = 0
 
 class OdometryModifier:
   def __init__(self):
     rospy.init_node('odom_drone', anonymous=True)
+    rospy.wait_for_message("/red/challenge_started", Bool)
     self.sub = rospy.Subscriber("/red/odometry", Odometry, self.callback)
-    self.bat = rospy.Subscriber("seconds_clock", Float32, self.sec_cb)
+    self.bat = rospy.Subscriber("/clock", Clock, self.sec_cb)
     self.pub = rospy.Publisher('odom2', Odometry, queue_size=10)
 
     self.total_distance = 0.
@@ -24,7 +25,7 @@ class OdometryModifier:
        
   def sec_cb(self, dat):
       global sec
-      sec = dat.data
+      sec = dat.clock.secs
       
   def checker(self):
     global data
@@ -51,8 +52,8 @@ class OdometryModifier:
     self.previous_y = data.pose.pose.position.y
     self.first_run = False
     
-    if data.twist.twist.linear.x == 0.0 and data.twist.twist.linear.y == 0.0 and data.twist.twist.angular.x == 0.0 and data.twist.twist.angular.y == 0.0:
-        checker() 
+    if abs(data.twist.twist.linear.x) <= 0.0051 and abs(data.twist.twist.linear.y) <= 0.0051 and abs(data.twist.twist.angular.x) <= 0.0051 and abs(data.twist.twist.angular.y) <= 0.0051:
+        self.checker() 
 
 if __name__ == '__main__':
   try:
